@@ -5,14 +5,19 @@ body {
     font-family: arial, sans-serif;
 }
 
-#main, #chats {
+#main, #chats, #textbox {
     width: 500px;
     margin: auto;
-    text-align: left;
+    text-align: center;
     background: white;
     padding: 50px 60px;
     border: solid #ddd;
     border-width: 0 1px 1px 1px;
+}
+#chats {
+    overflow: scroll;
+    height: 400px;
+    text-align: left;
 }
 
 #main h1 {
@@ -88,3 +93,14 @@ form input[type=text] {
     background-color: #0090da;
 }
 
+p {
+    width:100%;
+    overflow-wrap: break-word;
+    border: 1px solid black;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+#chatText {
+    width:80%;
+}
