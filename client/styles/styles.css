@@ -16,7 +16,7 @@ body {
 }
 #chats {
     overflow: scroll;
-    height: 400px;
+    height: 500px;
     text-align: left;
 }
 
@@ -94,19 +94,26 @@ form input[type=text] {
 p {
     width:100%;
     overflow-wrap: break-word;
-    border: 1px solid black;
     padding: 10px;
     border-radius: 10px;
 }
 
-#chatText {
-    width:80%;
+#message {
+    width:100%;
 }
-#newChat {
+#send {
     background-color: lightblue;
     border-radius: 5px;
     border: 1px solid grey;
+    margin-top: 10px;
+    float: right;
 }
-#newChat:hover {
+#send:hover {
     background-color: white;
+}
+#add{
+    float: right;
+}
+#roomSelect {
+    float: left;
 }

@@ -55,7 +55,7 @@
 
 // message: {
 //   username: 'Mel Brooks',
-//   text: 'I didn\'t get a harumph outa that guy.!',
+//   text: '',
 //   roomname: 'lobby'
 // }
 
@@ -68,7 +68,7 @@ var app = {
   init: function () {
     app.fetch();
     
-    //setInterval(app.fetch, 5000);
+    // setInterval(app.fetch, 5000);s
   },
   send: function (message) {
     $.ajax({
@@ -92,11 +92,12 @@ var app = {
       url: app.server,
       type: 'GET',
       contentType: 'application/json',
+      data: {order: '-createdAt'},
       success: function(data) {
         _.each(data, function(elem) {
           _.each(elem, function(item) {
             // app.rooms.push(item.roomname);
-            app.renderRoom(item.roomname);
+            app.renderRoom(_.escape(item.roomname));
             app.messages.push(item);
           });
         });
@@ -107,7 +108,10 @@ var app = {
     $('#chats').text('');
   },
   renderMessage: function(message) {
-    $('#chats').append('<p class="chat"><b><a href="#" class ="username">' + /*_.escape*/(message.username) + '</a>:</b><br><br>' + /*_.escape*/(message.text) + '</p>');
+    // var currTime = new Date();
+    // var exactTime = app.timeConversion(currTime - message.createdAt);
+    $('#chats').append('<p class="chat"><b><a href="#" class ="username">' + (message.username) + 
+                       '</a>:</b><br><br>' + (message.text) /*+ '<br><br>' + (message.createdAt)*/ + '</p>');
   },
   renderRoom: function(roomName) {
     if (!app.rooms.includes(roomName)) {
@@ -118,11 +122,20 @@ var app = {
     }
   },
   handleUsernameClick: function () {
-    
+    // add a friend when clicking a username
+    app.friends.push(this);
+    console.log(app.friends);
   },
   handleSubmit: function () {
-    
-  }
+    // send a message to the server
+    var message = {
+      username: window.location.search.slice(10),
+      text: $('#message').val(),
+      roomname: $('#roomSelect option:selected').text()
+    };
+    console.log(JSON.stringify(message));
+    app.send(JSON.stringify(message));
+  },
 };
 
 
@@ -132,21 +145,23 @@ $( function () {
     app.renderMessage(item);
   });
   
-  $('.username').on('click', function() {
-    handleUsernameClick();
+  $('a').on('click', function() {
+    console.log('hi');
+    app.handleUsernameClick();
   });
   $('#addRoom').on('click', function () {
     app.renderRoom($('#room').val());
-  });
-  
-  $('#newChat').on('click', function () {
     var message = {
       username: window.location.search.slice(10),
-      text: $('#chatText').val(),
-      roomname: $('#roomSelect option:selected').text()
+      text: '',
+      roomname: $('#room').val()
     };
-    console.log(JSON.stringify(message));
-    app.send(message);
+    app.send(JSON.stringify(message));
+  });
+  
+  $('#send').on('click', function () {
+    app.handleSubmit();
+    
   });
   
   $('#selectRooms').change(function () {
@@ -161,6 +176,8 @@ $( function () {
       }
     });
   });
+
+
 });
 
 app.init();
