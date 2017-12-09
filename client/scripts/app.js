@@ -107,7 +107,7 @@ var app = {
     $('#chats').text('');
   },
   renderMessage: function(message) {
-    $('#chats').append('<p><b><a href="#">' + _.escape(message.username) + '</a>:</b><br><br>' + _.escape(message.text) + '</p>');
+    $('#chats').append('<p class="chat"><b><a href="#" class ="username">' + /*_.escape*/(message.username) + '</a>:</b><br><br>' + /*_.escape*/(message.text) + '</p>');
   },
   renderRoom: function(roomName) {
     if (!app.rooms.includes(roomName)) {
@@ -127,8 +127,13 @@ var app = {
 
 
 $( function () {
+  // WIP
   app.messages.slice(app.messages.length - 15).forEach(function(item) {
     app.renderMessage(item);
+  });
+  
+  $('.username').on('click', function() {
+    handleUsernameClick();
   });
   $('#addRoom').on('click', function () {
     app.renderRoom($('#room').val());
