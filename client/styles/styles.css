@@ -5,7 +5,7 @@ body {
     font-family: arial, sans-serif;
 }
 
-#main, #chats, #textbox {
+#main, #chats, #chatter {
     width: 500px;
     margin: auto;
     text-align: center;
@@ -65,7 +65,7 @@ form input[type=text] {
 }
 
 .chat {
-    background-color: #6fdfff;
+
 }
 
 .chat .username {
@@ -95,6 +95,7 @@ p {
     width:100%;
     overflow-wrap: break-word;
     padding: 10px;
+    border: 3px solid #6fdfff;
     border-radius: 10px;
 }
 
@@ -116,4 +117,7 @@ p {
 }
 #roomSelect {
     float: left;
+}
+a:visited{
+    color:blue;
 }

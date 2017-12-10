@@ -64,11 +64,12 @@ var app = {
   rooms: [],
   messages: [],
   friends: [],
+  id: [],
   
   init: function () {
     app.fetch();
     
-    // setInterval(app.fetch, 5000);s
+    setInterval(app.fetch, 3000);
   },
   send: function (message) {
     $.ajax({
@@ -94,24 +95,48 @@ var app = {
       contentType: 'application/json',
       data: {order: '-createdAt'},
       success: function(data) {
+        app.clearMessages();
         _.each(data, function(elem) {
-          _.each(elem, function(item) {
+          _.each(elem.reverse(), function(item) {
             // app.rooms.push(item.roomname);
             app.renderRoom(_.escape(item.roomname));
-            app.messages.push(item);
+            if (!app.id.includes(item.objectId)) {
+              app.messages.push(item);
+              app.id.push(item.objectId);
+            }
           });
         });
+
+        _.each(app.messages, function(item) {
+          if (item.roomname === $('#roomSelect option:selected').text()) {
+            // app.renderMessage
+            // console.log(item);
+            
+            app.renderMessage(item);
+          }
+        });
+      },
+      error: function(error) {
+        console.log('error', error);
       }
     });
   },
   clearMessages: function() {
+    console.log('111');
     $('#chats').text('');
   },
   renderMessage: function(message) {
     // var currTime = new Date();
     // var exactTime = app.timeConversion(currTime - message.createdAt);
-    $('#chats').append('<p class="chat"><b><a href="#" class ="username">' + (message.username) + 
-                       '</a>:</b><br><br>' + (message.text) /*+ '<br><br>' + (message.createdAt)*/ + '</p>');
+
+    if (app.friends.includes(message.username)) {
+      $('#chats').append('<p class="chat"><b><a href="#" class ="username" onclick = "app.handleUsernameClick(this)">' + _.escape(message.username) + 
+                       '</a>:</b><br><br><b>' + _.escape(message.text) /*+ '<br><br>' + (message.createdAt)*/ + '</b></p>');
+    } else {
+      $('#chats').append('<p class="chat"><b><a href="#" class ="username" onclick = "app.handleUsernameClick(this)">' + _.escape(message.username) + 
+                       '</a>:</b><br><br>' + _.escape(message.text) /*+ '<br><br>' + (message.createdAt)*/ + '</p>');
+    }
+    $('#chats').prop({ scrollTop: $('#chats').prop('scrollHeight') });
   },
   renderRoom: function(roomName) {
     if (!app.rooms.includes(roomName)) {
@@ -121,9 +146,12 @@ var app = {
       }
     }
   },
-  handleUsernameClick: function () {
+  handleUsernameClick: function (name) {
     // add a friend when clicking a username
-    app.friends.push(this);
+    // app.friends.push(this);
+    if (!app.friends.includes(name.innerHTML)) {
+      app.friends.push(name.innerHTML);
+    }
     console.log(app.friends);
   },
   handleSubmit: function () {
@@ -135,6 +163,7 @@ var app = {
     };
     console.log(JSON.stringify(message));
     app.send(JSON.stringify(message));
+    
   },
 };
 
@@ -144,11 +173,8 @@ $( function () {
   app.messages.slice(app.messages.length - 15).forEach(function(item) {
     app.renderMessage(item);
   });
-  
-  $('a').on('click', function() {
-    console.log('hi');
-    app.handleUsernameClick();
-  });
+
+
   $('#addRoom').on('click', function () {
     app.renderRoom($('#room').val());
     var message = {
@@ -157,11 +183,12 @@ $( function () {
       roomname: $('#room').val()
     };
     app.send(JSON.stringify(message));
+    $('#room').val('');
   });
   
   $('#send').on('click', function () {
     app.handleSubmit();
-    
+    $('textarea').val('');
   });
   
   $('#selectRooms').change(function () {
@@ -173,8 +200,14 @@ $( function () {
         console.log(item);
         
         app.renderMessage(item);
+
       }
     });
+  });
+
+  $('a.username').on('click', function() {
+    console.log('hi');
+    app.handleUsernameClick();
   });
 
 
