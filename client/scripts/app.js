@@ -1,64 +1,3 @@
-// YOUR CODE HERE:
-// $.get('http://parse.sfm6.hackreactor.com/chatterbox/classes/messages', console.log);
-
-// var app = {
-//   server: 'http://parse.sfm6.hackreactor.com/chatterbox/classes/messages',  
-  
-//   rooms: [],
-  
-//   init: function () {
-//     app.fetch();
-//     //.responseText.results.forEach(function (obj) {
-//      // console.log(obj.roomname);
-//     //});
-//   },
-//   send: function (message) {
-//     $.ajax({
-//       // This is the url you should use to communicate with the parse API server.
-//       url: app.server,
-//       type: 'POST',
-//       data: message,
-//       contentType: 'application/json',
-//       success: function (data) {
-//         console.log('chatterbox: Message sent');
-//       },
-//       error: function (data) {
-//         // See: https://developer.mozilla.org/en-US/docs/Web/API/console.error
-//         console.error('chatterbox: Failed to send message', data);
-//       }
-//     });
-//   },
-//   fetch: function () {
-//     $.ajax({
-//       // This is the url you should use to communicate with the parse API server.
-//       url: app.server,
-//       type: 'GET',
-//       contentType: 'application/json',
-//       success: console.log
-//     });
-//   },
-//   clearMessages: function() {
-//     $('#chats').text('');
-//   },
-//   renderMessage: function(message) {
-//     $('#chats').append('<span>' + message.data + '</span>');
-//   },
-//   renderRoom: function(roomName) {
-//     $('#roomSelect').append('<option>' + roomName + '</option>');
-//   },
-//   handleUsernameClick: function () {
-    
-//   },
-// };
-
-// app.init();
-
-// message: {
-//   username: 'Mel Brooks',
-//   text: '',
-//   roomname: 'lobby'
-// }
-
 var app = {
   server: 'http://parse.sfm6.hackreactor.com/chatterbox/classes/messages',  
   rooms: [],
@@ -122,7 +61,6 @@ var app = {
     });
   },
   clearMessages: function() {
-    console.log('111');
     $('#chats').text('');
   },
   renderMessage: function(message) {
@@ -152,7 +90,7 @@ var app = {
     if (!app.friends.includes(name.innerHTML)) {
       app.friends.push(name.innerHTML);
     }
-    console.log(app.friends);
+    // console.log(app.friends);
   },
   handleSubmit: function () {
     // send a message to the server
@@ -161,7 +99,7 @@ var app = {
       text: $('#message').val(),
       roomname: $('#roomSelect option:selected').text()
     };
-    console.log(JSON.stringify(message));
+    // console.log(JSON.stringify(message));
     app.send(JSON.stringify(message));
     
   },
@@ -197,7 +135,7 @@ $( function () {
     _.each(app.messages, function(item) {
       if (item.roomname === $('#roomSelect option:selected').text()) {
         // app.renderMessage
-        console.log(item);
+        // console.log(item);
         
         app.renderMessage(item);
 
@@ -206,7 +144,6 @@ $( function () {
   });
 
   $('a.username').on('click', function() {
-    console.log('hi');
     app.handleUsernameClick();
   });
 
