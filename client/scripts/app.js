@@ -8,7 +8,7 @@ var app = {
   init: function () {
     app.fetch();
     
-    setInterval(app.fetch, 3000);
+    setInterval(app.fetch, 2000);
   },
   send: function (message) {
     $.ajax({
@@ -69,10 +69,10 @@ var app = {
 
     if (app.friends.includes(message.username)) {
       $('#chats').append('<p class="chat"><b><a href="#" class ="username" onclick = "app.handleUsernameClick(this)">' + _.escape(message.username) + 
-                       '</a>:</b><br><br><b>' + _.escape(message.text) /*+ '<br><br>' + (message.createdAt)*/ + '</b></p>');
+                       ':</a></b>  <b><i>' + _.escape(message.text) /*+ '<br><br>' + (message.createdAt)*/ + '</i></b></p>');
     } else {
       $('#chats').append('<p class="chat"><b><a href="#" class ="username" onclick = "app.handleUsernameClick(this)">' + _.escape(message.username) + 
-                       '</a>:</b><br><br>' + _.escape(message.text) /*+ '<br><br>' + (message.createdAt)*/ + '</p>');
+                       ':</a></b>  ' + _.escape(message.text) /*+ '<br><br>' + (message.createdAt)*/ + '</p>');
     }
     $('#chats').prop({ scrollTop: $('#chats').prop('scrollHeight') });
   },

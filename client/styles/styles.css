@@ -1,18 +1,20 @@
 body {
-    background: #eee;
+    background: white;
     text-align: center;
     padding: 0 25px;
-    font-family: arial, sans-serif;
+    font-family: helvetica, sans-serif;
+    color:white;
 }
 
 #main, #chats, #chatter {
     width: 500px;
     margin: auto;
     text-align: center;
-    background: white;
+    background: #00f2ff;
     padding: 50px 60px;
     border: solid #ddd;
     border-width: 0 1px 1px 1px;
+    border-radius: 10px;
 }
 #chats {
     overflow: scroll;
@@ -73,7 +75,8 @@ form input[type=text] {
 }
 
 .chat:hover {
-    background-color: #ddd;
+    background-color: white;
+    color:black;
 }
 
 .spinner {
@@ -95,8 +98,6 @@ p {
     width:100%;
     overflow-wrap: break-word;
     padding: 10px;
-    border: 3px solid #6fdfff;
-    border-radius: 10px;
 }
 
 #message {
@@ -119,5 +120,5 @@ p {
     float: left;
 }
 a:visited{
-    color:blue;
+    color:red;
 }
